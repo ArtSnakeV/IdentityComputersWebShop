@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ShopUser>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="row">
+    <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(users=>users.First().Id)</th>
+                    <th>@Html.DisplayNameFor(users => users.First().UserName)</th>
+                    <th>@Html.DisplayNameFor(users => users.First().Email)</th>
+                    <th>@Html.DisplayNameFor(users => users.First().DateOfBirth)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(ShopUser user in Model)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>@user.DateOfBirth</td>
+                    </tr>
+                }
+            </tbody>
+		</table>
+    </div>
+</div>
