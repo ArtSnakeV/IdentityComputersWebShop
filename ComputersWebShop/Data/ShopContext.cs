@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using ComputersLibrary;
 using ComputersWebShop.Models.DTOs.Admin;
 using ComputersWebShop.Models.DTOs.Users;
+using ComputersWebShop.Models.ViewModels.Users;
+using ComputersWebShop.Models.DTOs.Roles;
 
 namespace ComputersWebShop.Data
 {
@@ -18,8 +20,11 @@ namespace ComputersWebShop.Data
         public DbSet<Product> Products { get; set; }
 
         public DbSet<ProductImage> Images { get; set; }
-
-
+        //public DbSet<ComputersWebShop.Models.DTOs.Roles.RoleDTO> RoleDTO { get; set; } = default!;
+        //public DbSet<ComputersWebShop.Models.DTOs.Roles.RoleDTO> RoleDTO { get; set; } = default!;
+        //public DbSet<ComputersWebShop.Models.DTOs.Roles.RoleDTO> RoleDTO { get; set; } = default!;
+        //public DbSet<ComputersWebShop.Models.DTOs.Users.ShopUserDTO> ShopUserDTO { get; set; } = default!;
+        //public DbSet<ComputersWebShop.Models.ViewModels.Users.ChangePasswordVM> ChangePasswordVM { get; set; } = default!;
         //public DbSet<ComputersWebShop.Models.DTOs.Admin.LoginUserDTO> LoginUserDTO { get; set; } = default!;
         //public DbSet<ComputersWebShop.Models.DTOs.Users.ShopUserDTO> ShopUserDTO { get; set; } = default!;
         //public DbSet<ComputersWebShop.Models.DTOs.Admin.RegisterUserDTO> RegisterUserDTO { get; set; } = default!;

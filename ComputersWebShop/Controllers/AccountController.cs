@@ -97,7 +97,12 @@ namespace ComputersWebShop.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
