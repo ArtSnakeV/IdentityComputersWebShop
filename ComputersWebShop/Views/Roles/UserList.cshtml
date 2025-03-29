@@ -1,13 +1,11 @@
-﻿@* @using ComputersWebShop.Data *@
-@using ComputersWebShop.Models.DTOs.Users
-@* @model IEnumerable<ShopUser> *@
+﻿@using ComputersWebShop.Models.DTOs.Users
 @model IEnumerable<ShopUserDTO>
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
-<h1 class="mb-3">List of shop users</h1>
+<h1 class="mb-3">Список користувачів</h1>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -27,10 +25,7 @@
                 <td>@shopUser.Email</td>
                 <td>@shopUser.DateOfBirth</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@shopUser.Id">Edit</a> |
-                    <a asp-action="ChangePassword" asp-route-id="@shopUser.Id">Change Password</a> |
-                    <a asp-action="ShowClaims" asp-route-id="@shopUser.Id">Claims</a>
-                    <a asp-action="Delete" asp-route-id="@shopUser.Id">Delete</a>
+                    <a asp-action="ChangeRoles" asp-route-id="@shopUser.Id">Change Roles</a>
                 </td>
             </tr>
         }

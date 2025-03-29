@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using ComputersWebShop.Data;
 using ComputersWebShop.Models.DTOs.Users;
+using ComputersWebShop.Models.ViewModels.Claims;
+using ComputersWebShop.Models.ViewModels.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace ComputersWebShop.Controllers
 {
@@ -28,6 +31,8 @@ namespace ComputersWebShop.Controllers
 
         public async Task<IActionResult> Edit(string? id)
         {
+            //userManager.GetUserAsync(User); // Return current user
+
             if (id == null)
                 return NotFound();
             ShopUser? shopUser = await userManager.FindByIdAsync(id);
@@ -36,7 +41,6 @@ namespace ComputersWebShop.Controllers
             ShopUserDTO userDTO = mapper.Map<ShopUserDTO>(shopUser);
             return View(userDTO);
         }
-
         [HttpPost]
         public async Task<IActionResult> Edit(ShopUserDTO userDTO)
         {
@@ -55,6 +59,68 @@ namespace ComputersWebShop.Controllers
             else
                 ModelState.AddModelError(string.Empty, "User not found!");
             return View(userDTO);
+        }
+
+        public async Task<IActionResult> ChangePassword(string? id)
+        {
+            if (id == null) return NotFound();
+            ShopUser? shopUser = await userManager.FindByIdAsync(id);
+            if (shopUser == null) return NotFound();
+            ChangePasswordVM vM = new ChangePasswordVM()
+            {
+                Id = shopUser.Id,
+                Email = shopUser.Email,
+            };
+            return View(vM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordVM vM)
+        {
+            if (!ModelState.IsValid)
+                return View(vM);
+            ShopUser? user = await userManager.FindByIdAsync(vM.Id);
+            if (user == null) return NotFound();
+            var result = await userManager.ChangePasswordAsync(user, vM.OldPassword, vM.NewPassword);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+            foreach (var error in result.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
+            return View(vM);
+        }
+
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (id == null) return NotFound();
+            ShopUser? user = await userManager.FindByIdAsync(id);
+            if (user == null) return NotFound();
+            ShopUserDTO dTO = mapper.Map<ShopUserDTO>(user);
+            return View(dTO);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirm(string? id)
+        {
+            if (id == null) return NotFound();
+            ShopUser? user = await userManager.FindByIdAsync(id);
+            if (user == null) return NotFound();
+            await userManager.DeleteAsync(user);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> ShowClaims(string? id)
+        {
+            if (id == null) return NotFound();
+            ShopUser? shopUser = await userManager.FindByIdAsync(id);
+            if (shopUser == null) return NotFound();
+            IList<Claim> claims = await userManager.GetClaimsAsync(shopUser);
+            IndexClaimsVM vM = new IndexClaimsVM()
+            {
+                Claims = claims,
+                UserName = shopUser.UserName!,
+                Email = shopUser.Email!
+            };
+            return View("../Claims/Index",vM);
         }
     }
 }

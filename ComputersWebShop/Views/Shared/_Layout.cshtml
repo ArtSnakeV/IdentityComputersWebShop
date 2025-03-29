@@ -71,9 +71,20 @@
 
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-                    <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+                    <li><a href="#" class="nav-link px-2 text-white">Goods</a></li>
+                    <li><a asp-action="Index" asp-controller="Brands" class="nav-link px-2 text-white">Brands</a></li>
+                    <li><a asp-action = "Index" asp-controller="Categories" class="nav-link px-2 text-white">Categories</a></li>
+                    @if(User.Identity != null && User.IsInRole("admin")) // If User belongs to the `admin` role
+                    {
+                        <li><a asp-aciton="Index" asp-controller="Users"
+                            class="nav-link px-2 text-white">Users</a></li>
+                        <li>
+                            <a asp-aciton="Index" asp-controller="Roles"
+                               class="nav-link px-2 text-white">Roles</a>
+                        </li>
+                        // Claims to be added here
+                    }
+                    @* <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li> *@
                     <li><a href="#" class="nav-link px-2 text-white">About</a></li>
                 </ul>
 
