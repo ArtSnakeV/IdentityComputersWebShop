@@ -75,6 +75,7 @@
                     <li><a asp-action="Index" asp-controller="Products" class="nav-link px-2 text-white">Products</a></li>
                     <li><a asp-action="Index" asp-controller="Brands" class="nav-link px-2 text-white">Brands</a></li>
                     <li><a asp-action = "Index" asp-controller="Categories" class="nav-link px-2 text-white">Categories</a></li>
+                    <li><a asp-action="Index" asp-controller="ProductImages" class="nav-link px-2 text-white">Images</a></li>
                     @if(User.Identity != null && User.IsInRole("admin")) // If User belongs to the `admin` role
                     {
                         <li><a asp-aciton="Index" asp-controller="Users"

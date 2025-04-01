@@ -9,6 +9,7 @@ using ComputersLibrary;
 using ComputersWebShop.Data;
 using AutoMapper;
 using ComputersWebShop.Models.ViewModels.Products;
+using ComputersWebShop.Models.ViewModels.ProductImages;
 
 namespace ComputersWebShop.Controllers
 {
@@ -177,6 +178,29 @@ namespace ComputersWebShop.Controllers
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> GetProducts(int? brandId, int? categoryId)
+        {
+            IEnumerable<Brand> brands = await _context.Brands.ToListAsync();
+            IEnumerable<Category> categories = await _context.Categories.ToListAsync();
+            IQueryable<Product> products = _context.Products;
+            if (categoryId != null)
+                products = products.Where(p => p.CategoryId == categoryId);
+            if (brandId != null)
+                products = products.Where(p => p.BrandId == brandId);
+            CreateImageVM vM = new CreateImageVM
+            {
+                Brands = new SelectList(brands, "Id", nameof(Brand.BrandName), brandId),
+                Categories = new SelectList(categories, "Id",
+                nameof(Category.CategoryName), categoryId),
+                SelectedBrandId = brandId,
+                SelectedCategoryId = categoryId,
+                Products = new SelectList(products, "Id",
+                nameof(Product.ProductName)),
+            };
+            return PartialView("_SelectProductBlock", vM);
+
         }
     }
 }
