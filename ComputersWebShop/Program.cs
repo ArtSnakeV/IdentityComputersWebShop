@@ -1,4 +1,5 @@
 using ComputersWebShop.Data;
+using ComputersWebShop.Infrastructure.BinderProviders;
 using ComputersWebShop.Profiles;
 using ComputersWebShop.Requirements;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,10 @@ builder.Services.AddControllersWithViews();
 string connStr = builder.Configuration.GetConnectionString("AComputerShopDb") ?? throw new InvalidCastException("Connection string not configured!");
 builder.Services.AddDbContext<ShopContext>(options =>
 options.UseSqlServer(connStr));
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.ModelBinderProviders.Insert(0, new CartModelBinderProvider());
+});
 
 builder.Services.AddDbContext<ShopContext>(options => options.UseSqlServer(connStr));
 builder.Services.AddIdentity<ShopUser, IdentityRole>(
@@ -51,13 +55,16 @@ builder.Services.AddAuthorization(configure =>
 });
 builder.Services.AddAutoMapper(typeof(ShopUserProfile), typeof(RoleProfile),
     typeof(BrandProfile), typeof(CategoryProfile), typeof(ProductProfile)); // Registering our profiles for user, roles, brands
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
 var app = builder.Build();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 //app.UseMvc();
 
 
@@ -68,4 +75,3 @@ app.MapControllerRoute(
     pattern: "{controller=Account}/{action=Index}/{id?}");
 
 app.Run();
-

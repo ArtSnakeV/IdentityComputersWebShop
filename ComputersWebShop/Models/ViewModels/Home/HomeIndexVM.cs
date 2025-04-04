@@ -10,7 +10,5 @@ namespace ComputersWebShop.Models.ViewModels.Home
 
         public IEnumerable<Product>? Products { get; set; }
 
-
-
     }
 }
